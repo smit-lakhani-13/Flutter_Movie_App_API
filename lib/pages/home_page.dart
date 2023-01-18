@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:movie_app/main.dart';
+import 'package:movie_app/utils/text.dart';
+import 'package:movie_app/widgets/latest.dart';
 import 'package:tmdb_api/tmdb_api.dart';
 
 void main() {
@@ -30,7 +32,7 @@ class _HomeState extends State<HomePage> {
   loadmovies() async {
     TMDB tmdbWithCustomLogs = TMDB(ApiKeys(apikey, readaccesstoken),
         logConfig: ConfigLogger(showLogs: true, showErrorLogs: true));
-    Map latestresult = await tmdbWithCustomLogs.v3.movies.getLatest();
+    Map latestresult = await tmdbWithCustomLogs.v3.trending.getTrending();
     Map featuredresult = await tmdbWithCustomLogs.v3.movies.getTopRated();
     Map tvresult = await tmdbWithCustomLogs.v3.tv.getPopular();
 
@@ -45,8 +47,19 @@ class _HomeState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       appBar: AppBar(
-        title: Text('Flutter Movie App'),
+        backgroundColor: Colors.transparent,
+        title: modified_text(
+          text: 'Flutter Movie App',
+          color: Colors.white,
+          size: 20,
+        ),
+      ),
+      body: ListView(
+        children: [
+          LatestMovies(latest: latestmovies),
+        ],
       ),
     );
   }
