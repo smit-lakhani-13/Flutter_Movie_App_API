@@ -51,10 +51,11 @@ class _HomeState extends State<HomePage> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
+        // centerTitle: true,
         backgroundColor: Colors.transparent,
         title: modified_text(
-          text: 'Flutter Movie App',
-          color: Colors.white,
+          text: 'App like IMDB',
+          color: Colors.yellow,
           size: 20,
         ),
       ),
