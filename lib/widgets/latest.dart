@@ -29,6 +29,7 @@ class LatestMovies extends StatelessWidget {
                   return InkWell(
                     onTap: () {},
                     child: Container(
+                      padding: EdgeInsets.all(5),
                       width: 140,
                       child: SingleChildScrollView(
                         child: Column(
@@ -36,6 +37,7 @@ class LatestMovies extends StatelessWidget {
                             Container(
                               height: 200,
                               decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
                                 image: DecorationImage(
                                   image: NetworkImage(
                                     'https://image.tmdb.org/t/p/w500' +
