@@ -73,7 +73,7 @@ class Description extends StatelessWidget {
               Flexible(
                 child: modified_text(
                   text: description,
-                  size: 18,
+                  size: 16,
                   color: Colors.white,
                 ),
               )
