@@ -5,6 +5,7 @@ import 'package:movie_app/main.dart';
 import 'package:movie_app/utils/text.dart';
 import 'package:movie_app/widgets/featured.dart';
 import 'package:movie_app/widgets/latest.dart';
+import 'package:movie_app/widgets/tv.dart';
 import 'package:tmdb_api/tmdb_api.dart';
 
 void main() {
@@ -35,14 +36,14 @@ class _HomeState extends State<HomePage> {
         logConfig: ConfigLogger(showLogs: true, showErrorLogs: true));
     Map latestresult = await tmdbWithCustomLogs.v3.trending.getTrending();
     Map featuredresult = await tmdbWithCustomLogs.v3.movies.getTopRated();
-    Map tvresult = await tmdbWithCustomLogs.v3.tv.getPopular();
+    Map tvresult = await tmdbWithCustomLogs.v3.tv.getTopRated();
 
     setState(() {
       latestmovies = latestresult['results'];
       featuredmovies = featuredresult['results'];
       tv = tvresult['results'];
     });
-    print(latestmovies);
+    print(tv);
   }
 
   @override
@@ -59,6 +60,7 @@ class _HomeState extends State<HomePage> {
       ),
       body: ListView(
         children: [
+          TV(tv: tv),
           LatestMovies(latest: latestmovies),
           Featured(featured: featuredmovies),
         ],

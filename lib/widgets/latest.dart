@@ -48,7 +48,7 @@ class LatestMovies extends StatelessWidget {
                               child: modified_text(
                                 text: latest[index]['title'] != null
                                     ? latest[index]['title']
-                                    : 'Loading',
+                                    : latest[index]['original_name'],
                                 color: Colors.white,
                                 size: 16,
                               ),
