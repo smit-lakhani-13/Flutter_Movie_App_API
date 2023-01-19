@@ -30,29 +30,31 @@ class LatestMovies extends StatelessWidget {
                     onTap: () {},
                     child: Container(
                       width: 140,
-                      child: Column(
-                        children: [
-                          Container(
-                            height: 200,
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image: NetworkImage(
-                                  'https://image.tmdb.org/t/p/w500' +
-                                      latest[index]['poster_path'],
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            Container(
+                              height: 200,
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image: NetworkImage(
+                                    'https://image.tmdb.org/t/p/w500' +
+                                        latest[index]['poster_path'],
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                          Container(
-                            child: modified_text(
-                              text: latest[index]['title'] != null
-                                  ? latest[index]['title']
-                                  : 'Loading',
-                              color: Colors.white,
-                              size: 26,
-                            ),
-                          )
-                        ],
+                            Container(
+                              child: modified_text(
+                                text: latest[index]['title'] != null
+                                    ? latest[index]['title']
+                                    : 'Loading',
+                                color: Colors.white,
+                                size: 16,
+                              ),
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   );
