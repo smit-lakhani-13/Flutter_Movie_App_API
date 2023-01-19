@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/main.dart';
 import 'package:movie_app/utils/text.dart';
+import 'package:movie_app/widgets/featured.dart';
 import 'package:movie_app/widgets/latest.dart';
 import 'package:tmdb_api/tmdb_api.dart';
 
@@ -59,6 +60,7 @@ class _HomeState extends State<HomePage> {
       body: ListView(
         children: [
           LatestMovies(latest: latestmovies),
+          Featured(featured: featuredmovies),
         ],
       ),
     );
