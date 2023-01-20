@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/utils/text.dart';
 
+import '../description.dart';
+
 class Searching extends StatelessWidget {
   const Searching({super.key, required this.searching});
   final List searching;
@@ -12,11 +14,11 @@ class Searching extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          modified_text(
-            text: 'Search Movies',
-            color: Colors.white,
-            size: 26,
-          ),
+          // modified_text(
+          //   text: 'Search Movies',
+          //   color: Colors.white,
+          //   size: 26,
+          // ),
           TextField(
             style: TextStyle(color: Colors.white),
             decoration: InputDecoration(
@@ -34,6 +36,59 @@ class Searching extends StatelessWidget {
           SizedBox(
             height: 10,
           ),
+          Container(
+            height: 540,
+            width: 300,
+            child: ListView.builder(
+              itemCount: searching.length,
+              itemBuilder: (BuildContext context, int index) {
+                return InkWell(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Description(
+                                  name: searching[index]['title'],
+                                  bannerurl: 'https://image.tmdb.org/t/p/w500' +
+                                      searching[index]['backdrop_path'],
+                                  posterurl: 'https://image.tmdb.org/t/p/w500' +
+                                      searching[index]['poster_path'],
+                                  description: searching[index]['overview'],
+                                  vote: searching[index]['vote_average']
+                                      .toString(),
+                                  launch_on: searching[index]['release_date'],
+                                )));
+                  },
+                  child: Container(
+                    width: 140,
+                    child: Column(children: [
+                      Container(
+                        height: 400,
+                        width: 260,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            image: DecorationImage(
+                              image: NetworkImage(
+                                  'https://image.tmdb.org/t/p/w500' +
+                                      searching[index]['poster_path']),
+                            )),
+                      ),
+                      Container(
+                        padding: EdgeInsets.only(bottom: 30),
+                        child: modified_text(
+                          text: searching[index]['title'] != null
+                              ? searching[index]['title']
+                              : 'Loading',
+                          color: Colors.white,
+                          size: 16,
+                        ),
+                      )
+                    ]),
+                  ),
+                );
+              },
+            ),
+          )
         ],
       ),
     );
