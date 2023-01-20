@@ -1,9 +1,38 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:tmdb_api/tmdb_api.dart';
 
-class SearchPage extends StatelessWidget {
+class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
+  @override
+  _SearchState createState() => _SearchState();
+}
+
+class _SearchState extends State<SearchPage> {
+  List searchmovies = [];
+  final String apikey = '9883df1fd1160de45eca0ce384a9d437';
+  final readaccesstoken =
+      'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5ODgzZGYxZmQxMTYwZGU0NWVjYTBjZTM4NGE5ZDQzNyIsInN1YiI6IjYzYzgwMjU1MTQyZWYxMDBhMDRhNDlhNiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.6ZsaTh2ykBspSOnpl3OXzT6x9gfdQN6hFmwdHU6O8lA';
+
+  @override
+  void initState() {
+    loadsearchmovies();
+    super.initState();
+  }
+
+  loadsearchmovies() async {
+    TMDB tmdbWithCustomLogs = TMDB(ApiKeys(apikey, readaccesstoken),
+        logConfig: ConfigLogger(showLogs: true, showErrorLogs: true));
+    Map searchresult =
+        await tmdbWithCustomLogs.v3.search.queryMovies('Sony Pictures');
+
+    setState(() {
+      searchmovies = searchresult['results'];
+      // loadsearchmovies = loadsearchresult['results'];
+    });
+    print(searchresult);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,3 +73,15 @@ class SearchPage extends StatelessWidget {
     );
   }
 }
+
+  // @override
+  // _SearchState createState() => _SearchState();
+  // }
+
+  // class _SearchState extends State<SearchPage> {
+  // @override
+  // Widget build(BuildContext context) {
+  //   // TODO: implement build
+  //   throw UnimplementedError();
+  // }
+
