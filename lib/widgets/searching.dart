@@ -59,32 +59,34 @@ class Searching extends StatelessWidget {
                                   launch_on: searching[index]['release_date'],
                                 )));
                   },
-                  child: Container(
-                    width: 140,
-                    child: Column(children: [
-                      Container(
-                        height: 400,
-                        width: 260,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            image: DecorationImage(
-                              image: NetworkImage(
-                                  'https://image.tmdb.org/t/p/w500' +
-                                      searching[index]['poster_path']),
-                            )),
-                      ),
-                      Container(
-                        padding: EdgeInsets.only(bottom: 30),
-                        child: modified_text(
-                          text: searching[index]['title'] != null
-                              ? searching[index]['title']
-                              : 'Loading',
-                          color: Colors.white,
-                          size: 16,
-                        ),
-                      )
-                    ]),
-                  ),
+                  child: searching[index]['title'] != null
+                      ? Container(
+                          width: 140,
+                          child: Column(children: [
+                            Container(
+                              height: 400,
+                              width: 260,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  image: DecorationImage(
+                                    image: NetworkImage(
+                                        'https://image.tmdb.org/t/p/w500' +
+                                            searching[index]['poster_path']),
+                                  )),
+                            ),
+                            Container(
+                              padding: EdgeInsets.only(bottom: 30),
+                              child: modified_text(
+                                text: searching[index]['title'] != null
+                                    ? searching[index]['title']
+                                    : 'Loading',
+                                color: Colors.white,
+                                size: 16,
+                              ),
+                            )
+                          ]),
+                        )
+                      : Container(),
                 );
               },
             ),
