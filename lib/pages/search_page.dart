@@ -27,8 +27,7 @@ class _SearchState extends State<SearchPage> {
   loadsearchmovies() async {
     TMDB tmdbWithCustomLogs = TMDB(ApiKeys(apikey, readaccesstoken),
         logConfig: ConfigLogger(showLogs: true, showErrorLogs: true));
-    Map searchresult =
-        await tmdbWithCustomLogs.v3.search.queryMovies('Sony Pictures');
+    Map searchresult = await tmdbWithCustomLogs.v3.movies.getPopular();
 
     setState(() {
       searchmovies = searchresult['results'];
