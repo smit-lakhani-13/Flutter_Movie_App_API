@@ -3,12 +3,32 @@ import 'package:movie_app/utils/text.dart';
 
 import '../description.dart';
 
-class Searching extends StatelessWidget {
+class Searching extends StatefulWidget {
   const Searching({super.key, required this.searching});
   final List searching;
 
-  void updateList(String value) {
-    // setState(() {});
+  @override
+  State<Searching> createState() => _SearchingState();
+}
+
+class _SearchingState extends State<Searching> {
+  List movie = [];
+  List searchMovieList = [];
+  bool isSearching = false;
+  @override
+  void initState() {
+    super.initState();
+    movie = widget.searching;
+  }
+
+  void searching(String movieName) {
+    searchMovieList.clear();
+    for (var element in movie) {
+      if (element['title'].contains(movieName)) {
+        searchMovieList.add(element);
+      }
+    }
+    setState(() {});
   }
 
   @override
@@ -20,11 +40,6 @@ class Searching extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            // modified_text(
-            //   text: 'Search Movies',
-            //   color: Colors.white,
-            //   size: 26,
-            // ),
             TextField(
               style: TextStyle(color: Colors.white),
               decoration: InputDecoration(
@@ -38,6 +53,20 @@ class Searching extends StatelessWidget {
                 prefixIcon: Icon(Icons.search),
                 prefixIconColor: Colors.grey,
               ),
+              onChanged: (text) {
+                if (text.isNotEmpty) {
+                  setState(() {
+                    isSearching = true;
+                  });
+                  searching(text);
+                } else {
+                  setState(() {
+                    isSearching = false;
+                  });
+                }
+                // print('The movie is $text: searching[index]['title']');
+                // print($text: searching[index]['title'](data.results[0].title));
+              },
             ),
             SizedBox(
               height: 10,
@@ -55,7 +84,7 @@ class Searching extends StatelessWidget {
               height: 540,
               width: 300,
               child: ListView.builder(
-                itemCount: searching.length,
+                itemCount: isSearching ? searchMovieList.length : movie.length,
                 scrollDirection: Axis.vertical,
                 itemBuilder: (BuildContext context, int index) {
                   return InkWell(
@@ -64,20 +93,20 @@ class Searching extends StatelessWidget {
                           context,
                           MaterialPageRoute(
                               builder: (context) => Description(
-                                    name: searching[index]['title'],
+                                    name: movie[index]['title'],
                                     bannerurl:
                                         'https://image.tmdb.org/t/p/w500' +
-                                            searching[index]['backdrop_path'],
+                                            movie[index]['backdrop_path'],
                                     posterurl:
                                         'https://image.tmdb.org/t/p/w500' +
-                                            searching[index]['poster_path'],
-                                    description: searching[index]['overview'],
-                                    vote: searching[index]['vote_average']
-                                        .toString(),
-                                    launch_on: searching[index]['release_date'],
+                                            movie[index]['poster_path'],
+                                    description: movie[index]['overview'],
+                                    vote:
+                                        movie[index]['vote_average'].toString(),
+                                    launch_on: movie[index]['release_date'],
                                   )));
                     },
-                    child: searching[index]['title'] != null
+                    child: movie[index]['title'] != null
                         ? Container(
                             width: 140,
                             child: Column(children: [
@@ -89,14 +118,14 @@ class Searching extends StatelessWidget {
                                     image: DecorationImage(
                                       image: NetworkImage(
                                           'https://image.tmdb.org/t/p/w500' +
-                                              searching[index]['poster_path']),
+                                              movie[index]['poster_path']),
                                     )),
                               ),
                               Container(
                                 padding: EdgeInsets.only(bottom: 30),
                                 child: modified_text(
-                                  text: searching[index]['title'] != null
-                                      ? searching[index]['title']
+                                  text: movie[index]['title'] != null
+                                      ? movie[index]['title']
                                       : 'Loading',
                                   color: Colors.white,
                                   size: 16,
