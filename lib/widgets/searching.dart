@@ -121,7 +121,9 @@ class _SearchingState extends State<Searching> {
                               Container(
                                 padding: EdgeInsets.only(bottom: 30),
                                 child: modified_text(
-                                  text: widget.searching[index]['title'],
+                                  text: isSearching
+                                      ? searchMovieList.length
+                                      : widget.searching[index]['title'],
                                   color: Colors.white,
                                   size: 16,
                                 ),
