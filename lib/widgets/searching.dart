@@ -11,6 +11,26 @@ class Searching extends StatefulWidget {
 }
 
 class _SearchingState extends State<Searching> {
+  List movie = [];
+  List searchMovieList = [];
+  bool isSearching = false;
+
+  @override
+  void initState() {
+    super.initState();
+    movie = widget.searching;
+  }
+
+  void searching(String movieName) {
+    searchMovieList.clear();
+    for (var element in movie) {
+      if (element['title'].contains(movieName)) {
+        searchMovieList.add(element);
+      }
+    }
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -33,6 +53,18 @@ class _SearchingState extends State<Searching> {
                 prefixIcon: Icon(Icons.search),
                 prefixIconColor: Colors.grey,
               ),
+              onChanged: (value) {
+                if (value.isNotEmpty) {
+                  setState(() {
+                    isSearching = true;
+                  });
+                  searching(value);
+                } else {
+                  setState(() {
+                    isSearching = false;
+                  });
+                }
+              },
             ),
             SizedBox(
               height: 10,
@@ -41,7 +73,9 @@ class _SearchingState extends State<Searching> {
               height: 540,
               width: 300,
               child: ListView.builder(
-                itemCount: widget.searching.length,
+                itemCount: isSearching
+                    ? searchMovieList.length
+                    : widget.searching.length,
                 scrollDirection: Axis.vertical,
                 itemBuilder: (BuildContext context, int index) {
                   return InkWell(
@@ -87,9 +121,7 @@ class _SearchingState extends State<Searching> {
                               Container(
                                 padding: EdgeInsets.only(bottom: 30),
                                 child: modified_text(
-                                  text: widget.searching[index]['title'] != null
-                                      ? widget.searching[index]['title']
-                                      : 'Loading',
+                                  text: widget.searching[index]['title'],
                                   color: Colors.white,
                                   size: 16,
                                 ),
