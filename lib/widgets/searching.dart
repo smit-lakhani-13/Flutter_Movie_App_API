@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/utils/text.dart';
-
 import '../description.dart';
 
 class Searching extends StatefulWidget {
@@ -12,25 +11,6 @@ class Searching extends StatefulWidget {
 }
 
 class _SearchingState extends State<Searching> {
-  List movie = [];
-  List searchMovieList = [];
-  bool isSearching = false;
-  @override
-  void initState() {
-    super.initState();
-    movie = widget.searching;
-  }
-
-  void searching(String movieName) {
-    searchMovieList.clear();
-    for (var element in movie) {
-      if (element['title'].contains(movieName)) {
-        searchMovieList.add(element);
-      }
-    }
-    setState(() {});
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -53,38 +33,15 @@ class _SearchingState extends State<Searching> {
                 prefixIcon: Icon(Icons.search),
                 prefixIconColor: Colors.grey,
               ),
-              onChanged: (text) {
-                if (text.isNotEmpty) {
-                  setState(() {
-                    isSearching = true;
-                  });
-                  searching(text);
-                } else {
-                  setState(() {
-                    isSearching = false;
-                  });
-                }
-                // print('The movie is $text: searching[index]['title']');
-                // print($text: searching[index]['title'](data.results[0].title));
-              },
             ),
             SizedBox(
               height: 10,
             ),
-            // Expanded(
-            //   child: ListView.builder(
-            //       itemCount: searching.length,
-            //       itemBuilder: (BuildContext context, int index) {
-            //         return Scaffold(
-            //           body: null,
-            //         );
-            //       }),
-            // ),
             Container(
               height: 540,
               width: 300,
               child: ListView.builder(
-                itemCount: isSearching ? searchMovieList.length : movie.length,
+                itemCount: widget.searching.length,
                 scrollDirection: Axis.vertical,
                 itemBuilder: (BuildContext context, int index) {
                   return InkWell(
@@ -93,20 +50,25 @@ class _SearchingState extends State<Searching> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => Description(
-                                    name: movie[index]['title'],
+                                    name: widget.searching[index]['title'],
                                     bannerurl:
                                         'https://image.tmdb.org/t/p/w500' +
-                                            movie[index]['backdrop_path'],
+                                            widget.searching[index]
+                                                ['backdrop_path'],
                                     posterurl:
                                         'https://image.tmdb.org/t/p/w500' +
-                                            movie[index]['poster_path'],
-                                    description: movie[index]['overview'],
-                                    vote:
-                                        movie[index]['vote_average'].toString(),
-                                    launch_on: movie[index]['release_date'],
+                                            widget.searching[index]
+                                                ['poster_path'],
+                                    description: widget.searching[index]
+                                        ['overview'],
+                                    vote: widget.searching[index]
+                                            ['vote_average']
+                                        .toString(),
+                                    launch_on: widget.searching[index]
+                                        ['release_date'],
                                   )));
                     },
-                    child: movie[index]['title'] != null
+                    child: widget.searching[index]['title'] != null
                         ? Container(
                             width: 140,
                             child: Column(children: [
@@ -118,14 +80,15 @@ class _SearchingState extends State<Searching> {
                                     image: DecorationImage(
                                       image: NetworkImage(
                                           'https://image.tmdb.org/t/p/w500' +
-                                              movie[index]['poster_path']),
+                                              widget.searching[index]
+                                                  ['poster_path']),
                                     )),
                               ),
                               Container(
                                 padding: EdgeInsets.only(bottom: 30),
                                 child: modified_text(
-                                  text: movie[index]['title'] != null
-                                      ? movie[index]['title']
+                                  text: widget.searching[index]['title'] != null
+                                      ? widget.searching[index]['title']
                                       : 'Loading',
                                   color: Colors.white,
                                   size: 16,
